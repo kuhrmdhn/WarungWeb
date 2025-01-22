@@ -37,11 +37,11 @@ export default function ProfilePage() {
     const handleOnChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
         setSaveButtonDisabled(false)
         const { name, value } = e.target
-        setUserData((state) => ({ ...state, [name]: value }))
-    }
-    const handleChangePasswordInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const { name, value } = e.target
-        setChangePassword((state) => ({ ...state, [name]: value }))
+        if (name === "username") {
+            setUserData((state) => ({ ...state, [name]: value }))
+        } else {
+            setChangePassword((state) => ({ ...state, [name]: value }))
+        }
     }
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -81,7 +81,14 @@ export default function ProfilePage() {
                     changePasswordInput.map((input, index) => (
                         <FormControl key={index} className="flex gap-7 items-center">
                             <FormLabel className="w-32 lg:w-64 text-xs lg:text-base" htmlFor={input.name}>{input.label}</FormLabel>
-                            <Input onChange={(e) => handleChangePasswordInput(e)} placeholder={input.label} id={input.name} value={input.value} name={input.name} />
+                            <Input
+                                onChange={(e) => handleOnChange(e)}
+                                placeholder={input.label}
+                                id={input.name}
+                                value={input.value}
+                                name={input.name}
+                                type='password'
+                            />
                         </FormControl>
                     ))
                 }
